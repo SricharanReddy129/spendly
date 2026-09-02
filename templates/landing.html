@@ -2,6 +2,10 @@
 
 {% block title %}Spendly — Track Every Rupee{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <section class="hero">
@@ -19,43 +23,62 @@
         <div class="hero-actions">
             <a href="{{ url_for('register') }}" class="btn-primary">Start tracking free</a>
             <a href="{{ url_for('login') }}" class="btn-ghost">Sign in</a>
+            <button type="button" class="btn-ghost" id="how-it-works-trigger">See how it works</button>
         </div>
     </div>
     <div class="hero-visual">
-        <div class="mock-card">
-            <div class="mock-card-header">
-                <span class="mock-label">March 2026</span>
-                <span class="mock-total">₹12,450</span>
+        <div class="hero-illustration">
+            <svg class="hero-blob" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill="var(--accent-light)" d="M320.5 79.5C356 118 373 172 361 224.5C349 277 308 328 254.5 351.5C201 375 135 371.5 88 340C41 308.5 12.5 249 12 191.5C11.5 134 39 78.5 85.5 45C132 11.5 197.5 0 250 20.5C302.5 41 285 41 320.5 79.5Z"/>
+            </svg>
+            <div class="mock-card">
+                <div class="mock-card-header">
+                    <span class="mock-label">March 2026</span>
+                    <span class="mock-total">₹12,450</span>
+                </div>
+                <div class="mock-bars">
+                    <div class="mock-bar-row">
+                        <span class="mock-cat">Bills</span>
+                        <div class="mock-bar-track">
+                            <div class="mock-bar" style="width: 72%"></div>
+                        </div>
+                        <span class="mock-amt">₹4,500</span>
+                    </div>
+                    <div class="mock-bar-row">
+                        <span class="mock-cat">Food</span>
+                        <div class="mock-bar-track">
+                            <div class="mock-bar mock-bar-2" style="width: 52%"></div>
+                        </div>
+                        <span class="mock-amt">₹3,200</span>
+                    </div>
+                    <div class="mock-bar-row">
+                        <span class="mock-cat">Health</span>
+                        <div class="mock-bar-track">
+                            <div class="mock-bar mock-bar-3" style="width: 33%"></div>
+                        </div>
+                        <span class="mock-amt">₹2,050</span>
+                    </div>
+                    <div class="mock-bar-row">
+                        <span class="mock-cat">Transport</span>
+                        <div class="mock-bar-track">
+                            <div class="mock-bar mock-bar-4" style="width: 28%"></div>
+                        </div>
+                        <span class="mock-amt">₹1,800</span>
+                    </div>
+                </div>
             </div>
-            <div class="mock-bars">
-                <div class="mock-bar-row">
-                    <span class="mock-cat">Bills</span>
-                    <div class="mock-bar-track">
-                        <div class="mock-bar" style="width: 72%"></div>
-                    </div>
-                    <span class="mock-amt">₹4,500</span>
-                </div>
-                <div class="mock-bar-row">
-                    <span class="mock-cat">Food</span>
-                    <div class="mock-bar-track">
-                        <div class="mock-bar mock-bar-2" style="width: 52%"></div>
-                    </div>
-                    <span class="mock-amt">₹3,200</span>
-                </div>
-                <div class="mock-bar-row">
-                    <span class="mock-cat">Health</span>
-                    <div class="mock-bar-track">
-                        <div class="mock-bar mock-bar-3" style="width: 33%"></div>
-                    </div>
-                    <span class="mock-amt">₹2,050</span>
-                </div>
-                <div class="mock-bar-row">
-                    <span class="mock-cat">Transport</span>
-                    <div class="mock-bar-track">
-                        <div class="mock-bar mock-bar-4" style="width: 28%"></div>
-                    </div>
-                    <span class="mock-amt">₹1,800</span>
-                </div>
+            <div class="float-chip float-chip-up">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 7H21V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>+18% saved</span>
+            </div>
+            <div class="float-chip float-chip-goal">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Budget on track</span>
             </div>
         </div>
     </div>
@@ -89,4 +112,55 @@
     </div>
 </section>
 
+<div class="modal-overlay" id="how-it-works-modal" hidden>
+    <div class="modal-box">
+        <button type="button" class="modal-close" id="how-it-works-close" aria-label="Close">&times;</button>
+        <div class="modal-video-wrap">
+            <iframe id="how-it-works-iframe"
+                    src=""
+                    title="How Spendly works"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        var trigger = document.getElementById('how-it-works-trigger');
+        var modal = document.getElementById('how-it-works-modal');
+        var closeBtn = document.getElementById('how-it-works-close');
+        var iframe = document.getElementById('how-it-works-iframe');
+        var videoSrc = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0';
+
+        function openModal() {
+            iframe.src = videoSrc;
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.hidden = true;
+            iframe.src = '';
+            document.body.style.overflow = '';
+        }
+
+        if (trigger) trigger.addEventListener('click', openModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.hidden) closeModal();
+        });
+    })();
+</script>
 {% endblock %}
